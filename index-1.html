@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ ไพ่ทาโรต์แห่งจักรวาล</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Sarabun:ital,wght@0,300;0,400;0,600;1,300&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cosmos: #030818;
+    --deep: #050f2e;
+    --navy: #0a1a4a;
+    --blue: #1a3a8f;
+    --electric: #4d9fff;
+    --silver: #c8d8f0;
+    --silver-dim: #8aa0c0;
+    --gold: #c9a84c;
+    --gold-bright: #f0c060;
+    --white: #eef4ff;
+    --glow-blue: rgba(77,159,255,0.3);
+    --glow-gold: rgba(201,168,76,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cosmos);
+    color: var(--white);
+    font-family: 'Sarabun', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── STARFIELD ─── */
+  #starfield {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 0%, #0d1f5a 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 20% 80%, #08124a 0%, transparent 60%),
+      var(--cosmos);
+  }
+  .star {
+    position: absolute; border-radius: 50%;
+    background: white; animation: twinkle var(--d) ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: var(--o); transform: scale(1); }
+    50% { opacity: calc(var(--o) * 0.3); transform: scale(0.7); }
+  }
+  .nebula {
+    position: fixed; border-radius: 50%; filter: blur(80px);
+    pointer-events: none; z-index: 0;
+  }
+  .nebula-1 { width: 500px; height: 500px; top: -100px; left: -100px; background: radial-gradient(circle, rgba(30,60,180,0.15) 0%, transparent 70%); }
+  .nebula-2 { width: 400px; height: 400px; bottom: -50px; right: -50px; background: radial-gradient(circle, rgba(80,20,120,0.12) 0%, transparent 70%); }
+  .nebula-3 { width: 300px; height: 300px; top: 40%; left: 60%; background: radial-gradient(circle, rgba(0,100,200,0.08) 0%, transparent 70%); }
+
+  /* ─── LAYOUT ─── */
+  .app { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ─── HEADER ─── */
+  header {
+    text-align: center; padding: 60px 0 40px;
+    animation: fadeDown 1s ease both;
+  }
+  .logo-glyph {
+    font-size: 2.8rem; display: block; margin-bottom: 12px;
+    filter: drop-shadow(0 0 20px var(--gold));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  h1.title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    letter-spacing: 0.08em;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--silver) 50%, var(--gold-bright) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 30px rgba(201,168,76,0.5));
+  }
+  .subtitle {
+    font-size: 0.9rem; color: var(--silver-dim); letter-spacing: 0.3em;
+    text-transform: uppercase; font-weight: 300;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 28px auto; width: fit-content;
+    color: var(--silver-dim); font-size: 0.75rem; letter-spacing: 0.3em;
+  }
+  .divider::before, .divider::after {
+    content: ''; display: block; width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--electric), transparent);
+  }
+
+  /* ─── TOPIC SELECTOR ─── */
+  .section-label {
+    text-align: center; font-family: 'Cinzel', serif;
+    font-size: 0.75rem; letter-spacing: 0.35em; color: var(--electric);
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+  .topics {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  @media(max-width:600px) { .topics { grid-template-columns: repeat(2,1fr); } }
+
+  .topic-btn {
+    background: linear-gradient(135deg, rgba(10,26,74,0.9), rgba(5,15,46,0.95));
+    border: 1px solid rgba(77,159,255,0.2);
+    border-radius: 16px; padding: 18px 10px;
+    cursor: pointer; transition: all 0.35s ease;
+    text-align: center; color: var(--silver);
+    font-family: 'Sarabun', sans-serif; font-size: 0.85rem;
+    backdrop-filter: blur(10px);
+    position: relative; overflow: hidden;
+  }
+  .topic-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(77,159,255,0.1), transparent 70%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .topic-btn:hover::before, .topic-btn.active::before { opacity: 1; }
+  .topic-btn:hover, .topic-btn.active {
+    border-color: var(--electric);
+    box-shadow: 0 0 24px rgba(77,159,255,0.25), inset 0 0 24px rgba(77,159,255,0.05);
+    transform: translateY(-3px); color: var(--white);
+  }
+  .topic-btn.active {
+    border-color: var(--gold);
+    box-shadow: 0 0 30px var(--glow-gold), inset 0 0 20px rgba(201,168,76,0.08);
+    color: var(--gold-bright);
+  }
+  .topic-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
+  .topic-name { display: block; font-weight: 600; margin-bottom: 2px; }
+  .topic-sub { display: block; font-size: 0.72rem; opacity: 0.6; }
+
+  /* ─── INTENTION INPUT ─── */
+  .intention-box {
+    margin-bottom: 36px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .intention-input {
+    width: 100%; background: rgba(10,26,74,0.6);
+    border: 1px solid rgba(77,159,255,0.2); border-radius: 14px;
+    padding: 14px 20px; color: var(--white); font-family: 'Sarabun', sans-serif;
+    font-size: 0.95rem; resize: none; outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(10px);
+  }
+  .intention-input::placeholder { color: var(--silver-dim); }
+  .intention-input:focus {
+    border-color: rgba(77,159,255,0.5);
+    box-shadow: 0 0 20px rgba(77,159,255,0.1);
+  }
+
+  /* ─── CARDS AREA ─── */
+  .cards-section { margin-bottom: 36px; animation: fadeUp 0.8s 0.4s ease both; }
+
+  .cards-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    perspective: 1200px;
+  }
+  @media(max-width:480px) { .cards-row { gap: 10px; } }
+
+  .card-slot { text-align: center; }
+  .card-slot-label {
+    font-family: 'Cinzel', serif; font-size: 0.65rem;
+    letter-spacing: 0.25em; color: var(--silver-dim);
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .card-pos-icon { font-size: 0.9rem; margin-right: 4px; }
+
+  .card-wrapper {
+    position: relative; width: 100%; padding-top: 165%;
+    cursor: pointer;
+  }
+  .card-inner {
+    position: absolute; inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute; inset: 0; border-radius: 16px;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Card Back */
+  .card-back {
+    background: linear-gradient(145deg, #0e1e5c, #060d2a);
+    border: 1px solid rgba(77,159,255,0.35);
+    box-shadow: 0 0 30px rgba(77,159,255,0.1), inset 0 0 40px rgba(0,20,80,0.5);
+    cursor: pointer; transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .card-back:hover {
+    box-shadow: 0 0 50px rgba(77,159,255,0.3), inset 0 0 30px rgba(77,159,255,0.1);
+  }
+  .card-back-pattern {
+    width: 85%; height: 85%; border: 1px solid rgba(77,159,255,0.2);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 8px,
+      rgba(77,159,255,0.03) 8px, rgba(77,159,255,0.03) 16px
+    );
+    position: relative;
+  }
+  .card-back-star {
+    font-size: 2rem; filter: drop-shadow(0 0 12px var(--electric));
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { filter: drop-shadow(0 0 12px var(--electric)); } 50% { filter: drop-shadow(0 0 24px var(--electric)) drop-shadow(0 0 8px white); } }
+
+  /* Card Front */
+  .card-front {
+    transform: rotateY(180deg);
+    background: linear-gradient(160deg, #0a1540, #030d30);
+    border: 1px solid var(--gold);
+    box-shadow: 0 0 40px var(--glow-gold), inset 0 0 30px rgba(201,168,76,0.05);
+    padding: 14px 10px;
+    flex-direction: column; gap: 6px;
+  }
+  .card-number {
+    font-family: 'Cinzel', serif; font-size: 0.65rem;
+    color: var(--gold); letter-spacing: 0.2em;
+    opacity: 0.8;
+  }
+  .card-emoji { font-size: 2.2rem; line-height: 1; filter: drop-shadow(0 0 10px rgba(201,168,76,0.5)); }
+  .card-name-th {
+    font-family: 'Cinzel', serif; font-size: 0.7rem;
+    color: var(--gold-bright); text-align: center; letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  .card-name-en {
+    font-size: 0.6rem; color: var(--silver-dim);
+    text-align: center; letter-spacing: 0.1em;
+  }
+  .card-keyword {
+    font-size: 0.62rem; color: var(--electric); letter-spacing: 0.15em;
+    text-transform: uppercase; text-align: center;
+    background: rgba(77,159,255,0.1); border-radius: 20px;
+    padding: 2px 8px; margin-top: 2px;
+  }
+
+  /* ─── DRAW BUTTON ─── */
+  .draw-btn {
+    display: block; margin: 24px auto;
+    background: linear-gradient(135deg, #1a3a8f, #0e2060);
+    border: 1px solid var(--electric);
+    border-radius: 50px; padding: 16px 48px;
+    color: var(--white); font-family: 'Cinzel', serif;
+    font-size: 1rem; letter-spacing: 0.2em;
+    cursor: pointer; transition: all 0.35s ease;
+    box-shadow: 0 0 30px rgba(77,159,255,0.2);
+    position: relative; overflow: hidden;
+  }
+  .draw-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(77,159,255,0.2), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .draw-btn:hover::before { opacity: 1; }
+  .draw-btn:hover {
+    box-shadow: 0 0 50px rgba(77,159,255,0.4), 0 0 20px rgba(77,159,255,0.2);
+    transform: translateY(-2px);
+  }
+  .draw-btn:disabled {
+    opacity: 0.4; cursor: not-allowed; transform: none;
+    box-shadow: none;
+  }
+
+  /* ─── READING RESULT ─── */
+  #reading-result {
+    display: none; margin-top: 10px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .result-header {
+    text-align: center; margin-bottom: 28px;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(10,26,74,0.6), rgba(5,15,46,0.8));
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .result-title {
+    font-family: 'Cinzel Decorative', serif; font-size: 1rem;
+    color: var(--gold); letter-spacing: 0.15em; margin-bottom: 6px;
+  }
+  .result-cards-display {
+    font-size: 0.8rem; color: var(--silver-dim);
+  }
+
+  .interpretation-grid {
+    display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px;
+  }
+  .interp-card {
+    background: linear-gradient(135deg, rgba(10,26,74,0.7), rgba(5,15,46,0.9));
+    border-radius: 18px; padding: 22px 24px;
+    border-left: 3px solid var(--electric);
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s;
+  }
+  .interp-card:hover { transform: translateX(4px); }
+  .interp-card.opportunity { border-left-color: var(--gold); }
+  .interp-card.growth { border-left-color: #a78bfa; }
+
+  .interp-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .interp-icon { font-size: 1.4rem; }
+  .interp-label {
+    font-family: 'Cinzel', serif; font-size: 0.7rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--electric);
+  }
+  .interp-card.opportunity .interp-label { color: var(--gold); }
+  .interp-card.growth .interp-label { color: #a78bfa; }
+  .interp-card-name {
+    font-size: 0.72rem; color: var(--silver-dim); margin-left: auto;
+    font-family: 'Cinzel', serif;
+  }
+  .interp-text {
+    font-size: 0.9rem; line-height: 1.85; color: var(--silver);
+    font-weight: 300;
+  }
+  .interp-reflection {
+    margin-top: 12px; padding: 12px 16px;
+    background: rgba(77,159,255,0.06); border-radius: 10px;
+    font-size: 0.82rem; color: var(--electric);
+    font-style: italic; line-height: 1.6;
+  }
+  .interp-card.opportunity .interp-reflection {
+    background: rgba(201,168,76,0.06); color: var(--gold);
+  }
+  .interp-card.growth .interp-reflection {
+    background: rgba(167,139,250,0.06); color: #a78bfa;
+  }
+
+  /* AI synthesis */
+  .ai-synthesis {
+    background: linear-gradient(135deg, rgba(5,15,46,0.95), rgba(10,26,74,0.8));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 20px; padding: 28px;
+    margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .ai-synthesis::before {
+    content: '✦';
+    position: absolute; top: 20px; right: 24px;
+    font-size: 3rem; color: rgba(201,168,76,0.07);
+    font-family: 'Cinzel', serif;
+  }
+  .ai-synthesis-title {
+    font-family: 'Cinzel', serif; font-size: 0.72rem;
+    letter-spacing: 0.3em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ai-synthesis-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(201,168,76,0.3), transparent);
+  }
+  .ai-synthesis-text {
+    font-size: 0.95rem; line-height: 2; color: var(--white);
+    font-weight: 300;
+  }
+  .ai-loading {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--silver-dim); font-size: 0.85rem;
+  }
+  .dots span {
+    animation: blink 1.4s ease-in-out infinite;
+    opacity: 0;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100% { opacity: 0; } 40% { opacity: 1; } }
+
+  /* Action buttons */
+  .action-row {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    margin-top: 20px;
+  }
+  .action-btn {
+    background: transparent; border: 1px solid rgba(77,159,255,0.3);
+    border-radius: 50px; padding: 10px 24px;
+    color: var(--silver); font-family: 'Sarabun', sans-serif; font-size: 0.85rem;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .action-btn:hover {
+    border-color: var(--electric); color: var(--white);
+    box-shadow: 0 0 16px rgba(77,159,255,0.2);
+  }
+  .action-btn.primary {
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.1));
+    border-color: var(--gold); color: var(--gold);
+  }
+  .action-btn.primary:hover {
+    background: linear-gradient(135deg, rgba(201,168,76,0.3), rgba(201,168,76,0.15));
+    box-shadow: 0 0 20px var(--glow-gold);
+  }
+
+  /* ─── MISC ─── */
+  .rw-meaning {
+    margin-top: 10px; padding: 10px 14px;
+    background: rgba(77,159,255,0.04);
+    border-left: 2px solid rgba(77,159,255,0.3);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.78rem; color: var(--silver-dim);
+    line-height: 1.6; font-style: italic;
+  }
+  .rw-label {
+    color: var(--electric); font-style: normal;
+    font-family: 'Cinzel', serif; font-size: 0.68rem;
+    letter-spacing: 0.15em; margin-right: 6px;
+  }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  @keyframes cardReveal { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+
+  .shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+
+  footer {
+    text-align: center; padding: 40px 0 20px;
+    color: rgba(200,216,240,0.25); font-size: 0.72rem;
+    letter-spacing: 0.2em;
+  }
+
+
+</style>
+</head>
+<body>
+
+<div id="starfield"></div>
+<div class="nebula nebula-1"></div>
+<div class="nebula nebula-2"></div>
+<div class="nebula nebula-3"></div>
+
+<div class="app">
+  <header>
+    <span class="logo-glyph">✦</span>
+    <h1 class="title">ไพ่ทาโรต์แห่งจักรวาล</h1>
+    <p class="subtitle">Cosmic Tarot · Self-Reflection</p>
+    <div class="divider">สะท้อนตัวเอง · ค้นหาศักยภาพ · เติบโต</div>
+  </header>
+
+  <!-- TOPIC SELECTION -->
+  <p class="section-label">✦ เลือกหัวข้อที่ต้องการสำรวจ ✦</p>
+  <div class="topics">
+    <button class="topic-btn" data-topic="life" onclick="selectTopic(this)">
+      <span class="topic-icon">🌱</span>
+      <span class="topic-name">การใช้ชีวิต</span>
+      <span class="topic-sub">Life & Well-being</span>
+    </button>
+    <button class="topic-btn" data-topic="finance" onclick="selectTopic(this)">
+      <span class="topic-icon">💰</span>
+      <span class="topic-name">การเงิน</span>
+      <span class="topic-sub">Finance</span>
+    </button>
+    <button class="topic-btn" data-topic="business" onclick="selectTopic(this)">
+      <span class="topic-icon">🏔️</span>
+      <span class="topic-name">ธุรกิจ</span>
+      <span class="topic-sub">Business</span>
+    </button>
+    <button class="topic-btn" data-topic="love" onclick="selectTopic(this)">
+      <span class="topic-icon">🌙</span>
+      <span class="topic-name">ความรัก</span>
+      <span class="topic-sub">Love & Relationship</span>
+    </button>
+  </div>
+
+  <!-- INTENTION -->
+  <div class="intention-box">
+    <p class="section-label">✦ ตั้งความตั้งใจในใจ (ไม่บังคับ) ✦</p>
+    <textarea class="intention-input" id="intention" rows="2"
+      placeholder="พิมพ์คำถามหรือสิ่งที่ต้องการคำตอบ... เช่น 'ฉันควรตัดสินใจอย่างไรกับ...'"></textarea>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-section">
+    <p class="section-label">✦ เปิดใจ · สัมผัสพลังงานจักรวาล · เลือกไพ่ ✦</p>
+    <div class="cards-row">
+      <div class="card-slot">
+        <div class="card-slot-label"><span class="card-pos-icon">🔮</span>ปัจจุบัน</div>
+        <div class="card-wrapper" onclick="flipCard(0)" id="slot-0">
+          <div class="card-inner" id="card-0">
+            <div class="card-face card-back">
+              <div class="card-back-pattern">
+                <span class="card-back-star">✦</span>
+              </div>
+            </div>
+            <div class="card-face card-front" id="front-0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-slot">
+        <div class="card-slot-label"><span class="card-pos-icon">⭐</span>โอกาส</div>
+        <div class="card-wrapper" onclick="flipCard(1)" id="slot-1">
+          <div class="card-inner" id="card-1">
+            <div class="card-face card-back">
+              <div class="card-back-pattern">
+                <span class="card-back-star">✦</span>
+              </div>
+            </div>
+            <div class="card-face card-front" id="front-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-slot">
+        <div class="card-slot-label"><span class="card-pos-icon">🌱</span>เติบโต</div>
+        <div class="card-wrapper" onclick="flipCard(2)" id="slot-2">
+          <div class="card-inner" id="card-2">
+            <div class="card-face card-back">
+              <div class="card-back-pattern">
+                <span class="card-back-star">✦</span>
+              </div>
+            </div>
+            <div class="card-face card-front" id="front-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="draw-btn" id="draw-btn" onclick="drawCards()">
+      ✦ &nbsp;เปิดไพ่&nbsp; ✦
+    </button>
+  </div>
+
+
+
+  <!-- RESULT -->
+  <div id="reading-result">
+    <div class="result-header">
+      <div class="result-title">✦ &nbsp;บทเรียนจากจักรวาล&nbsp; ✦</div>
+      <div class="result-cards-display" id="cards-display"></div>
+    </div>
+
+    <div class="interpretation-grid" id="interp-grid"></div>
+
+    <div class="ai-synthesis" id="ai-synthesis">
+      <div class="ai-synthesis-title">✦ &nbsp;การสังเคราะห์จากจักรวาล (AI Insight)</div>
+      <div id="ai-text" class="ai-synthesis-text">
+        <div class="ai-loading">
+          <span>🌌</span>
+          <span>กำลังอ่านพลังงาน</span>
+          <span class="dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="action-btn primary" onclick="resetReading()">✦ เริ่มต้นใหม่</button>
+      <button class="action-btn" onclick="saveReading()">📖 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<footer>✦ · ไพ่ทาโรต์แห่งจักรวาล · ✦ · จิตวิทยา + ธรรมชาตา · ✦</footer>
+
+<script>
+// ─── STARFIELD ───
+(function() {
+  const sf = document.getElementById('starfield');
+  for (let i = 0; i < 160; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    const o = Math.random() * 0.7 + 0.1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%; left:${Math.random()*100}%;
+      --o:${o}; --d:${Math.random()*4+2}s;
+      animation-delay:${Math.random()*5}s;
+    `;
+    sf.appendChild(s);
+  }
+})();
+
+// ─── TAROT CARD DATA ───
+const TAROT_CARDS = {
+  life: [
+    { th: "โลก", en: "The World", num: "XXI", emoji: "🌍", keyword: "ความสมบูรณ์",
+      present: "คุณกำลังอยู่ในช่วงที่วงจรหนึ่งใกล้จะสมบูรณ์ พลังงานที่สั่งสมมาทั้งชีวิตกำลังรวมตัวกัน คุณมีทุกอย่างที่ต้องการอยู่แล้ว เพียงแค่มองให้ชัด",
+      opportunity: "นี่คือเวลาของการเก็บเกี่ยวผล หากคุณเดินหน้าด้วยความตั้งใจอย่างแท้จริง จักรวาลพร้อมสนับสนุนทุกก้าว",
+      growth: "ระวังการยึดติดกับวิถีเดิม บางครั้งการสมบูรณ์ต้องอาศัยการปล่อยวาง สิ่งที่คุ้นเคย",
+      reflection: "อะไรในชีวิตที่คุณรู้สึกว่า 'สมบูรณ์แล้ว' และอะไรที่ยังรอการปิดบท?" },
+    { th: "นักพรต", en: "The Hermit", num: "IX", emoji: "🕯️", keyword: "ปัญญาภายใน",
+      present: "ช่วงนี้คุณกำลังอยู่ในโหมดภายใน จิตใจต้องการความสงบและพื้นที่สำหรับคิด นี่ไม่ใช่การหนี แต่คือการกลับสู่ตัวเอง",
+      opportunity: "ปัญญาที่ลึกที่สุดอยู่ภายในตัวคุณแล้ว ถ้าหยุดฟังเสียงรอบข้างสักครู่ คำตอบจะปรากฏ",
+      growth: "ระวังการเก็บตัวจนกลายเป็นการหลีกเลี่ยง บางครั้งแสงของคุณต้องการถูกแบ่งปัน",
+      reflection: "เมื่อคุณอยู่คนเดียวในความเงียบ เสียงอะไรที่ดังที่สุดในจิตใจ?" },
+    { th: "ดาวแห่งความหวัง", en: "The Star", num: "XVII", emoji: "⭐", keyword: "ความหวัง",
+      present: "หลังจากช่วงเวลาแห่งความมืด แสงแห่งความหวังกำลังส่องมาถึงคุณ จักรวาลกำลังบอกว่า ทุกอย่างเป็นไปตามจังหวะ",
+      opportunity: "นี่คือเวลาของการรักษาและฟื้นฟู เปิดใจรับพลังงานบวก และเชื่อในกระบวนการของชีวิต",
+      growth: "อย่าให้ความกลัวความเจ็บปวดในอดีตปิดกั้นคุณจากการรับพรที่กำลังจะมา",
+      reflection: "ความฝันอะไรที่คุณเคยปล่อยมือไปแล้ว แต่จริงๆ ยังต้องการอยู่?" },
+    { th: "พลังแห่งใจ", en: "Strength", num: "VIII", emoji: "🦁", keyword: "ความกล้าอ่อนโยน",
+      present: "ความแข็งแกร่งที่แท้จริงของคุณไม่ได้อยู่ที่กำลัง แต่อยู่ที่ความเมตตาต่อตัวเองและผู้อื่น คุณแข็งแกร่งกว่าที่คิด",
+      opportunity: "ศักยภาพที่ยิ่งใหญ่ที่สุดของคุณคือการเป็น 'พื้นที่ปลอดภัย' ให้ทั้งตัวเองและคนรอบข้าง",
+      growth: "ตรวจสอบว่าคุณใช้ความแข็งแกร่งเพื่อควบคุม หรือเพื่อปลดปล่อย ทั้งตัวเองและคนอื่น",
+      reflection: "สถานการณ์ใดที่คุณต้องใช้ความอ่อนโยน มากกว่าความแข็งแกร่ง?" },
+    { th: "ล้อแห่งโชคชะตา", en: "Wheel of Fortune", num: "X", emoji: "☸️", keyword: "วัฏจักรชีวิต",
+      present: "ชีวิตกำลังเปลี่ยนแปลง ทั้งภายในและภายนอก บางสิ่งกำลังปิดลงเพื่อเปิดพื้นที่ให้สิ่งใหม่",
+      opportunity: "จังหวะนี้เหมาะกับการเริ่มต้นสิ่งที่คุณผัดผ่อนมานาน จักรวาลสนับสนุนการเปลี่ยนแปลง",
+      growth: "อย่าต่อต้านความเปลี่ยนแปลง จงเรียนรู้ที่จะเป็นน้ำที่ไหลตามรูปภาชนะ",
+      reflection: "การเปลี่ยนแปลงอะไรที่คุณกำลังต่อต้าน ทั้งที่รู้ว่ามันจำเป็น?" }
+  ],
+  finance: [
+    { th: "จักรพรรดิ", en: "The Emperor", num: "IV", emoji: "👑", keyword: "ความมั่นคง",
+      present: "คุณมีพื้นฐานที่แข็งแกร่งสำหรับการสร้างความมั่งคั่ง พลังงานนี้เกี่ยวกับโครงสร้าง วินัย และแผนระยะยาว",
+      opportunity: "ถึงเวลาวางแผนการเงินอย่างจริงจัง สร้างระบบ ไม่ใช่แค่หวังพึ่งโชค",
+      growth: "ตรวจสอบว่าความต้องการ 'ควบคุม' ทางการเงินมาจากความกลัว หรือจากปัญญา",
+      reflection: "ระบบการเงินส่วนตัวของคุณแข็งแกร่งพอที่จะรองรับชีวิตที่คุณต้องการหรือยัง?" },
+    { th: "นักมายากล", en: "The Magician", num: "I", emoji: "🪄", keyword: "การสร้างสรรค์",
+      present: "คุณมีทุกทรัพยากรที่จำเป็น ทักษะ เวลา ความคิด และโอกาส สิ่งที่ขาดคือการลงมือทำ",
+      opportunity: "พลังงานนี้เหมาะมากกับการเริ่มต้นธุรกิจ โปรเจกต์ใหม่ หรือสร้างรายได้ทางใหม่",
+      growth: "ระวังการกระจายพลังงานมากเกินไป โฟกัสหนึ่งสิ่งให้ลึก ดีกว่าทำหลายอย่างแบบผิวเผิน",
+      reflection: "ทรัพยากรอะไรที่คุณมีอยู่แล้ว แต่ยังไม่ได้ใช้ประโยชน์อย่างเต็มที่?" },
+    { th: "ความอุดมสมบูรณ์", en: "The Empress", num: "III", emoji: "🌸", keyword: "ความอุดม",
+      present: "พลังงานแห่งความอุดมสมบูรณ์กำลังไหลมาสู่คุณ แต่มันต้องการการดูแล เหมือนสวนที่ต้องรดน้ำ",
+      opportunity: "การลงทุนในสิ่งที่คุณรัก มีพลัง และถนัด จะให้ผลตอบแทนมากกว่าการทำตามกระแส",
+      growth: "ตรวจสอบความสัมพันธ์กับเงิน มองว่าเป็นพลังงาน ไม่ใช่ศัตรู",
+      reflection: "คุณรู้สึกอย่างไรกับเงิน? มันคือพลังงานที่ไหลเวียน หรือสิ่งที่คุณต้องยึดครอง?" },
+    { th: "พระอาทิตย์", en: "The Sun", num: "XIX", emoji: "☀️", keyword: "ความสำเร็จ",
+      present: "พลังงานการเงินกำลังสดใส มีความชัดเจนและโปร่งใสในสถานการณ์ทางการเงินของคุณ",
+      opportunity: "นี่คือเวลาที่ดีสำหรับการลงทุน เจรจา และสร้างความร่วมมือ พลังบวกช่วยหนุน",
+      growth: "อย่าให้ความสำเร็จทำให้ประมาท ยังต้องวางแผนและรักษาวินัยต่อไป",
+      reflection: "ความสำเร็จทางการเงินที่คุณนิยาม หมายความว่าอะไรจริงๆ สำหรับคุณ?" },
+    { th: "ดาวแห่งความหวัง", en: "The Star", num: "XVII", emoji: "💫", keyword: "ฝันไว้ก่อน",
+      present: "คุณกำลังอยู่ในช่วงฟื้นฟูทางการเงิน บางอย่างอาจดูช้า แต่ทิศทางถูกต้องแล้ว",
+      opportunity: "เชื่อในแผนระยะยาวของคุณ ผลลัพธ์อาจไม่มาทันที แต่เมล็ดพันธุ์ที่ปลูกไว้กำลังงอก",
+      growth: "หยุดเปรียบเทียบเส้นทางการเงินของคุณกับคนอื่น จังหวะของทุกคนแตกต่างกัน",
+      reflection: "หากไม่มีแรงกดดันจากสังคม เป้าหมายทางการเงินของคุณจะเป็นอะไร?" }
+  ],
+  business: [
+    { th: "ราชินีแห่งไม้คทา", en: "Queen of Wands", num: "QIII", emoji: "🔥", keyword: "ความเป็นผู้นำ",
+      present: "คุณมีพลังงานแห่งผู้นำที่แท้จริง ความมั่นใจ สร้างสรรค์ และแรงบันดาลใจรอบข้าง นี่คือช่วงเวลาของคุณ",
+      opportunity: "ก้าวออกมาเป็นผู้นำด้วยเสียงที่เป็นเอกลักษณ์ของคุณ ตลาดต้องการสิ่งที่คุณเสนอ",
+      growth: "ระวังการควบคุมมากเกินไป บางครั้งการปล่อยให้คนอื่นนำบ้าง จะทำให้ธุรกิจแข็งแกร่งขึ้น",
+      reflection: "ในฐานะผู้นำ คุณสร้างพื้นที่ให้คนอื่นเติบโตหรือสร้างพื้นที่ให้ตัวเองโดดเด่น?" },
+    { th: "นักมายากล", en: "The Magician", num: "I", emoji: "⚡", keyword: "ทรัพยากรครบ",
+      present: "ทุกอย่างที่คุณต้องการสำหรับธุรกิจ พร้อมแล้ว ทักษะ เครือข่าย ไอเดีย รอแค่การตัดสินใจ",
+      opportunity: "เวลานี้เหมาะมากสำหรับ launch ผลิตภัณฑ์ใหม่ หรือขยายไปยังตลาดใหม่",
+      growth: "โฟกัสที่ USP ที่ชัดเจน อย่าพยายามตอบสนองทุกคน",
+      reflection: "จุดแข็งเฉพาะตัวของธุรกิจคุณ ที่คนอื่นทำซ้ำไม่ได้ คืออะไร?" },
+    { th: "เจ้าแห่งเหรียญ", en: "King of Pentacles", num: "KIV", emoji: "🏆", keyword: "การสร้างมรดก",
+      present: "พลังงานของความยั่งยืนและการสร้างสิ่งที่ทนทาน คุณกำลังสร้างไม่ใช่แค่ธุรกิจ แต่คือมรดก",
+      opportunity: "ลงทุนในระบบ กระบวนการ และคน ที่ทำให้ธุรกิจเดินได้แม้ไม่มีคุณ",
+      growth: "อย่าหยุดนิ่งกับความสำเร็จปัจจุบัน ตลาดเปลี่ยนเสมอ จงวิวัฒน์ตามเสมอ",
+      reflection: "ถ้าคุณหยุดทำงานวันนี้ ธุรกิจจะยังคงเดินหน้าได้หรือไม่?" },
+    { th: "เอซแห่งไม้คทา", en: "Ace of Wands", num: "A", emoji: "🌟", keyword: "แรงบันดาลใจใหม่",
+      present: "แรงบันดาลใจใหม่กำลังลุกโชน มีไอเดียที่ตื่นเต้นและพร้อมถ่ายทอด พลังงานเริ่มต้นอยู่เต็มเปี่ยม",
+      opportunity: "อย่ารอให้พร้อม 100% ลงมือทำเลย momentum ของการเริ่มต้นมีพลังมาก",
+      growth: "ไอเดียที่ดีต้องการการทดสอบ อย่าตกหลุม analysis paralysis",
+      reflection: "ไอเดียธุรกิจไหนที่คุณเก็บไว้ในใจนาน แต่ยังไม่กล้าทดสอบ?" },
+    { th: "สองแห่งไม้คทา", en: "Two of Wands", num: "II", emoji: "🗺️", keyword: "วางแผนขยาย",
+      present: "คุณกำลังยืนอยู่บนจุดสูง มองเห็นภาพใหญ่ของธุรกิจ ถึงเวลาวางแผนการขยายตัว",
+      opportunity: "Partnership ที่ถูกต้องจะเพิ่มพลังงานธุรกิจของคุณอย่างมาก เปิดรับการร่วมมือ",
+      growth: "ระวังการวางแผนโดยไม่ลงมือทำ ความกล้าที่จะก้าวออกไปสำคัญกว่าแผนที่สมบูรณ์",
+      reflection: "หุ้นส่วนหรือ collaboration ไหนที่จะช่วยให้คุณไปถึงเป้าหมายเร็วขึ้น?" }
+  ],
+  love: [
+    { th: "คนรัก", en: "The Lovers", num: "VI", emoji: "💞", keyword: "ความสมดุล",
+      present: "ความสัมพันธ์ในชีวิตคุณกำลังเรียกร้องความตั้งใจ ไม่ว่าจะเป็นความสัมพันธ์กับคนอื่น หรือกับตัวเอง",
+      opportunity: "การเลือกจากหัวใจ ไม่ใช่จากความกลัว จะนำพาคุณสู่ความสัมพันธ์ที่แท้จริง",
+      growth: "ตรวจสอบว่าการตัดสินใจในความรักของคุณมาจากความรัก หรือจากความต้องการการยืนยัน",
+      reflection: "ในความสัมพันธ์ปัจจุบัน คุณรู้สึกเป็นตัวเองได้มากน้อยแค่ไหน?" },
+    { th: "พระจันทร์", en: "The Moon", num: "XVIII", emoji: "🌕", keyword: "ความลึกลับ",
+      present: "ความสัมพันธ์มีบางอย่างที่ยังไม่ชัดเจน อาจมีอารมณ์ความรู้สึกที่ยังไม่ได้พูดถึง",
+      opportunity: "ความลึกของอารมณ์คือพลังงาน ไม่ใช่จุดอ่อน การเชื่อมต่อระดับจิตวิญญาณรอคุณอยู่",
+      growth: "หยุดสร้างภาพลวงตาว่าความสัมพันธ์ควรเป็นอย่างไร แล้วยอมรับมันตามที่เป็น",
+      reflection: "สิ่งที่คุณไม่พูดออกมาในความสัมพันธ์ กำลังส่งผลต่อมันอย่างไร?" },
+    { th: "ดาวแห่งรัก", en: "The Star", num: "XVII", emoji: "✨", keyword: "การรักตัวเอง",
+      present: "จักรวาลกำลังบอกให้คุณกลับมารักตัวเองก่อน ความสัมพันธ์ที่ดีเริ่มจากการที่คุณดีกับตัวเอง",
+      opportunity: "เมื่อคุณเต็มเปี่ยมในตัวเอง คุณจะดึงดูดพลังงานและคนที่ตรงกับคุณจริงๆ",
+      growth: "ปล่อยวางความสัมพันธ์หรือความรู้สึกที่หมดอายุแล้ว เพื่อเปิดพื้นที่ให้สิ่งใหม่",
+      reflection: "คุณรักตัวเองมากพอที่จะเลือกความสัมพันธ์ที่คุณสมควรได้รับจริงๆ หรือไม่?" },
+    { th: "สองแห่งถ้วย", en: "Two of Cups", num: "II", emoji: "🥂", keyword: "ความกลมเกลียว",
+      present: "มีการเชื่อมต่อที่มีความหมายในชีวิตคุณ ไม่ว่าจะเป็นความสัมพันธ์ใหม่ หรือความลึกขึ้นของความสัมพันธ์เดิม",
+      opportunity: "ความเป็นหุ้นส่วนที่แท้จริง ทั้งในความรักและมิตรภาพ รอให้คุณเปิดรับ",
+      growth: "ความสัมพันธ์ที่ดีต้องการการดูแลทั้งสองฝ่าย ตรวจสอบว่าคุณ give และ receive สมดุลไหม",
+      reflection: "ในความสัมพันธ์ที่สำคัญ คุณแสดงความต้องการที่แท้จริงของตัวเองได้ไหม?" },
+    { th: "ความยุติธรรม", en: "Justice", num: "XI", emoji: "⚖️", keyword: "ความสมดุลรัก",
+      present: "ความสัมพันธ์กำลังเผชิญกับช่วงเวลาแห่งการ balance ทั้งการให้และรับต้องสมดุล",
+      opportunity: "ความซื่อสัตย์และความโปร่งใสในความสัมพันธ์จะนำมาซึ่งความเชื่อใจที่ยั่งยืน",
+      growth: "หลีกเลี่ยงการสะสมความไม่พอใจ พูดตรงๆ ด้วยความรัก ดีกว่าเก็บไว้คนเดียว",
+      reflection: "ในความสัมพันธ์ คุณต้องการอะไรที่ยังไม่ได้บอกอีกฝ่าย?" }
+  ]
+};
+
+// ─── STATE ───
+let state = {
+  topic: null,
+  drawnCards: [],
+  flippedCount: 0,
+  readingComplete: false
+};
+
+// ─── TOPIC KEYWORDS สำหรับ TarotAPI search ───
+const TOPIC_KEYWORDS = {
+  life:     'growth',
+  finance:  'abundance',
+  business: 'success',
+  love:     'love'
+};
+
+// ─── EMOJI MAP สำหรับ suit/type ───
+function getCardEmoji(card) {
+  if (card.type === 'major') {
+    const majorEmojis = {
+      'The Fool':'🌀','The Magician':'⚡','The High Priestess':'🌙',
+      'The Empress':'🌸','The Emperor':'👑','The Hierophant':'🔱',
+      'The Lovers':'💞','The Chariot':'🏇','Strength':'🦁',
+      'The Hermit':'🕯️','Wheel of Fortune':'☸️','Justice':'⚖️',
+      'The Hanged Man':'🌊','Death':'🦋','Temperance':'🌈',
+      'The Devil':'🔗','The Tower':'⚡','The Star':'⭐',
+      'The Moon':'🌕','The Sun':'☀️','Judgement':'📯','The World':'🌍'
+    };
+    return majorEmojis[card.name] || '✦';
+  }
+  const suitEmojis = { wands:'🔥', cups:'🥂', swords:'⚔️', pentacles:'🪙' };
+  return suitEmojis[card.suit] || '✦';
+}
+
+// ─── แปล meaning เป็นไทย (เชิงกวี) ───
+function buildThaiInterpretation(card, position) {
+  const meaning = card.meaning_up || '';
+  const desc = card.desc || '';
+  const name = card.name;
+
+  const posFrames = {
+    present: [
+      `พลังงานของ ${name} สะท้อนให้เห็นสภาวะปัจจุบันของคุณ — ${translateMeaning(meaning)} จงสังเกตสิ่งนี้ด้วยความเมตตาต่อตัวเอง`,
+      `ในช่วงเวลานี้ ${name} บอกว่าคุณกำลัง${translateMeaning(meaning)} นี่คือจุดเริ่มต้นของการตื่นรู้`
+    ],
+    opportunity: [
+      `${name} เปิดประตูให้คุณเห็นว่า ${translateMeaning(meaning)} โอกาสนี้รอให้คุณก้าวเข้าไป`,
+      `ศักยภาพที่ซ่อนอยู่ในคุณสอดคล้องกับพลังของ ${name} — ${translateMeaning(meaning)}`
+    ],
+    growth: [
+      `${name} ชี้ให้เห็นว่าการเติบโตของคุณอยู่ที่การเรียนรู้ว่า ${translateMeaning(meaning)} นี่คือบทเรียนที่จักรวาลส่งมา`,
+      `จุดที่ควรพัฒนาคือ ${translateMeaning(meaning)} — ${name} เป็นกระจกสะท้อนให้คุณเห็นตัวเองชัดขึ้น`
+    ]
+  };
+
+  const frames = posFrames[position];
+  return frames[Math.floor(Math.random() * frames.length)];
+}
+
+function translateMeaning(meaning) {
+  // แปลง keyword หลักๆ
+  const dict = {
+    'new beginnings': 'การเริ่มต้นใหม่', 'opportunity': 'โอกาส', 'adventure': 'การผจญภัย',
+    'skill': 'ทักษะ', 'power': 'พลัง', 'willpower': 'ความมุ่งมั่น',
+    'intuition': 'สัญชาตญาณ', 'mystery': 'ความลึกลับ', 'wisdom': 'ปัญญา',
+    'abundance': 'ความอุดมสมบูรณ์', 'fertility': 'ความสมบูรณ์', 'creativity': 'ความสร้างสรรค์',
+    'authority': 'อำนาจ', 'stability': 'ความมั่นคง', 'structure': 'โครงสร้าง',
+    'tradition': 'ขนบธรรมเนียม', 'guidance': 'การนำทาง',
+    'love': 'ความรัก', 'choices': 'การเลือก', 'harmony': 'ความกลมกลืน',
+    'determination': 'ความมุ่งมั่น', 'control': 'การควบคุม', 'victory': 'ชัยชนะ',
+    'courage': 'ความกล้าหาญ', 'patience': 'ความอดทน', 'compassion': 'ความเมตตา',
+    'introspection': 'การมองภายใน', 'solitude': 'ความสันโดษ',
+    'change': 'การเปลี่ยนแปลง', 'cycles': 'วัฏจักร', 'luck': 'โชคชะตา',
+    'balance': 'ความสมดุล', 'fairness': 'ความยุติธรรม', 'truth': 'ความจริง',
+    'surrender': 'การปล่อยวาง', 'new perspective': 'มุมมองใหม่',
+    'transformation': 'การเปลี่ยนแปลงครั้งยิ่งใหญ่', 'endings': 'การสิ้นสุด',
+    'moderation': 'ความพอดี', 'patience': 'ความอดทน', 'purpose': 'เป้าหมาย',
+    'shadow': 'เงามืด', 'materialism': 'วัตถุนิยม', 'addiction': 'การยึดติด',
+    'chaos': 'ความวุ่นวาย', 'revelation': 'การเปิดเผย', 'upheaval': 'การพลิกผัน',
+    'hope': 'ความหวัง', 'inspiration': 'แรงบันดาลใจ', 'serenity': 'ความสงบ',
+    'illusion': 'ภาพลวงตา', 'fear': 'ความกลัว', 'unconscious': 'จิตใต้สำนึก',
+    'success': 'ความสำเร็จ', 'joy': 'ความสุข', 'vitality': 'พลังชีวิต',
+    'awakening': 'การตื่นรู้', 'judgment': 'การตัดสิน', 'renewal': 'การฟื้นฟู',
+    'completion': 'ความสมบูรณ์', 'integration': 'การบูรณาการ', 'travel': 'การเดินทาง'
+  };
+
+  let result = meaning.toLowerCase();
+  Object.entries(dict).forEach(([en, th]) => {
+    result = result.replace(new RegExp(en, 'gi'), th);
+  });
+  return result;
+}
+
+function buildReflection(card) {
+  const reflections = {
+    major: [
+      `พลังงานของ ${card.name} กำลังถามคุณว่า — อะไรในชีวิตที่คุณรู้สึกว่าถึงเวลาต้องเปลี่ยนแปลงแล้ว?`,
+      `${card.name} ส่องกระจกให้คุณ — คุณเห็นตัวเองเป็นอย่างไรในช่วงนี้?`,
+      `บทเรียนของ ${card.name} คือ — สิ่งใดที่คุณกำลังเรียนรู้อยู่ในขณะนี้?`
+    ],
+    minor: [
+      `ในสถานการณ์นี้ คุณเลือกที่จะตอบสนองด้วยพลังงานแบบใด?`,
+      `${card.name} ถามว่า — ก้าวเล็กๆ อะไรที่คุณสามารถทำได้วันนี้?`,
+      `อะไรที่คุณยังไม่ได้พูด หรือยังไม่ได้ทำ ที่หัวใจรู้ว่าสำคัญ?`
+    ]
+  };
+  const pool = reflections[card.type] || reflections.minor;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// ─── TOPIC SELECT ───
+function selectTopic(btn) {
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.topic = btn.dataset.topic;
+  resetCards();
+}
+
+function resetCards() {
+  for (let i = 0; i < 3; i++) {
+    document.getElementById('card-' + i).classList.remove('flipped');
+    document.getElementById('front-' + i).innerHTML = '';
+  }
+  state.drawnCards = [];
+  state.flippedCount = 0;
+  state.readingComplete = false;
+  document.getElementById('reading-result').style.display = 'none';
+  document.getElementById('draw-btn').disabled = false;
+  document.getElementById('draw-btn').textContent = '✦  เปิดไพ่  ✦';
+}
+
+// ─── RENDER CARD FRONTS ───
+function renderCardFronts(cards, isAPI) {
+  cards.forEach((card, i) => {
+    document.getElementById('front-' + i).innerHTML = `
+      <div class="card-number">${card.num}</div>
+      <div class="card-emoji">${card.emoji}</div>
+      <div class="card-name-th">${card.th}</div>
+      <div class="card-name-en">${card.en}</div>
+      <div class="card-keyword">${card.keyword}</div>
+    `;
+  });
+}
+
+// ─── DRAW CARDS — preset หลัก + TarotAPI เสริม ───
+async function drawCards() {
+  if (!state.topic) {
+    alert('กรุณาเลือกหัวข้อก่อนนะคะ ✨');
+    return;
+  }
+
+  const btn = document.getElementById('draw-btn');
+  btn.textContent = '✦  กำลังอ่านพลังงาน...  ✦';
+  btn.disabled = true;
+
+  // Step 1: สุ่มจาก preset ก่อนเสมอ (instant, ไม่ขึ้นกับ network)
+  const pool = TAROT_CARDS[state.topic];
+  state.drawnCards = [...pool].sort(() => Math.random() - 0.5).slice(0, 3);
+
+  // Step 2: แสดงหน้าไพ่จาก preset ทันที
+  renderCardFronts(state.drawnCards, false);
+  btn.textContent = '✦  แตะไพ่เพื่อเปิด  ✦';
+
+  // Step 3: พยายามดึงข้อมูลเพิ่มจาก TarotAPI.dev ใน background (optional)
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000); // timeout 4 วิ
+
+    const keyword = TOPIC_KEYWORDS[state.topic];
+    const res = await fetch(
+      `https://tarotapi.dev/api/v1/cards/search?meaning=${keyword}`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeoutId);
+
+    const data = await res.json();
+    if (data.cards && data.cards.length >= 3) {
+      // ได้ข้อมูล API แล้ว — เก็บ rw_meaning เข้า preset cards
+      const apiCards = data.cards.sort(() => Math.random() - 0.5);
+      state.drawnCards = state.drawnCards.map((presetCard, i) => ({
+        ...presetCard,
+        rw_meaning: apiCards[i]?.meaning_up || null,
+        rw_name: apiCards[i]?.name || null
+      }));
+    }
+  } catch (e) {
+    // API ล้มหรือ timeout — ใช้ preset ต่อไปได้เลย ไม่ error
+    console.log('TarotAPI unavailable, using preset only');
+  }
+}
+
+// ─── FLIP CARD ───
+function flipCard(idx) {
+  if (state.drawnCards.length === 0) return;
+  const inner = document.getElementById('card-' + idx);
+  if (inner.classList.contains('flipped')) return;
+
+  inner.classList.add('flipped');
+  state.flippedCount++;
+
+  if (state.flippedCount === 3) {
+    setTimeout(showReading, 600);
+  }
+}
+
+// ─── SHOW READING ───
+function showReading() {
+  const result = document.getElementById('reading-result');
+  result.style.display = 'block';
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const posConfig = [
+    { key: 'present',     cls: '',           icon: '🔮', label: 'สะท้อนตัวตนปัจจุบัน' },
+    { key: 'opportunity', cls: 'opportunity', icon: '⭐', label: 'โอกาสและศักยภาพ' },
+    { key: 'growth',      cls: 'growth',      icon: '🌱', label: 'จุดที่ควรเติบโต' }
+  ];
+
+  document.getElementById('cards-display').innerHTML =
+    state.drawnCards.map(c => `${c.emoji} ${c.th}`).join('  ·  ');
+
+  const grid = document.getElementById('interp-grid');
+  grid.innerHTML = posConfig.map((pos, i) => {
+    const card = state.drawnCards[i];
+
+    // rw_meaning block — แสดงเฉพาะถ้า API ส่งมา
+    const rwBlock = card.rw_meaning ? `
+      <div class="rw-meaning">
+        <span class="rw-label">✦ Rider-Waite:</span> ${card.rw_meaning}
+      </div>` : '';
+
+    return `
+      <div class="interp-card ${pos.cls}" style="animation: fadeUp 0.6s ${i * 0.15}s ease both; opacity:0">
+        <div class="interp-header">
+          <span class="interp-icon">${pos.icon}</span>
+          <span class="interp-label">${pos.label}</span>
+          <span class="interp-card-name">${card.emoji} ${card.th}</span>
+        </div>
+        <div class="interp-text">${card[pos.key]}</div>
+        ${rwBlock}
+        <div class="interp-reflection">💭 ${card.reflection}</div>
+      </div>
+    `;
+  }).join('');
+
+  getAISynthesis();
+}
+
+// ─── SYNTHESIS ───
+function getAISynthesis() {
+  const cards = state.drawnCards;
+  const topicTH = { life: 'การใช้ชีวิต', finance: 'การเงิน', business: 'ธุรกิจ', love: 'ความรักและความสัมพันธ์' }[state.topic];
+  const intention = document.getElementById('intention').value.trim();
+  const synthesis = generateSynthesis(cards, topicTH, intention);
+  document.getElementById('ai-text').innerHTML = `<div class="ai-synthesis-text">${synthesis}</div>`;
+}
+
+function generateSynthesis(cards, topic, intention) {
+
+  const bridges = [
+    `เหมือนดาวสามดวงที่โคจรในกาแล็กซีเดียวกัน ไพ่ทั้งสามใบนี้เชื่อมกันด้วยเส้นด้ายที่มองไม่เห็น`,
+    `จักรวาลไม่เคยส่งสารแบบสุ่ม ทุกใบที่ปรากฏมีเหตุผลของมัน`,
+    `เหมือนน้ำที่ไหลจากต้นน้ำสู่ทะเล ไพ่ทั้งสามเล่าเรื่องเดียวกัน เพียงแต่คนละบท`,
+    `ธรรมชาติสอนเราว่าทุกสิ่งมีจังหวะ ไพ่เหล่านี้คือฤดูกาลของคุณในขณะนี้`
+  ];
+
+  const topicInsights = {
+    life:     ['การใช้ชีวิตที่ดีไม่ได้หมายถึงการไม่มีพายุ แต่คือการรู้จักเต้นรำในสายฝน', 'ชีวิตไม่ได้วัดด้วยจำนวนลมหายใจ แต่ด้วยช่วงเวลาที่ทำให้หัวใจหยุดหายใจ'],
+    finance:  ['เงินคือพลังงานที่ไหลเวียน ยิ่งคุณเคารพมัน มันยิ่งเคารพคุณ', 'ความมั่งคั่งที่แท้จริงเริ่มจากความสัมพันธ์ที่ดีกับตัวเอง'],
+    business: ['ธุรกิจที่ยั่งยืนสร้างบนคุณค่า ไม่ใช่บนกำไร', 'ผู้นำที่แท้จริงสร้างผู้นำคนต่อไป ไม่ใช่ผู้ตาม'],
+    love:     ['ความรักที่แท้จริงเริ่มจากการรักตัวเองอย่างครบถ้วน', 'ความสัมพันธ์ที่งดงามที่สุดคือการที่ทั้งสองฝ่ายเป็นตัวเองได้อย่างเต็มที่']
+  };
+  const topicKey = Object.keys(topicInsights).find(k =>
+    topic.includes({life:'ชีวิต', finance:'การเงิน', business:'ธุรกิจ', love:'ความรัก'}[k])
+  ) || 'life';
+
+  const closings = [
+    `จงเดินหน้าด้วยความไว้วางใจในจังหวะของจักรวาล ดาวทุกดวงรู้จักทางของมันเอง ✦`,
+    `เหมือนดอกบัวที่งอกจากโคลน ความงดงามของคุณไม่ได้เกิดจากสภาพแวดล้อม แต่เกิดจากข้างใน ✦`,
+    `จักรวาลกำลังเต้นรำอยู่ในทิศทางของคุณ เพียงแค่ไว้วางใจในจังหวะ ✦`
+  ];
+
+  const bridge  = bridges[Math.floor(Math.random() * bridges.length)];
+  const insight = topicInsights[topicKey][Math.floor(Math.random() * topicInsights[topicKey].length)];
+  const closing = closings[Math.floor(Math.random() * closings.length)];
+  const intentionLine = intention
+    ? `<br><br>สำหรับคำถามของคุณ "<em>${intention}</em>" — ไพ่บอกว่าคำตอบอยู่ใกล้กว่าที่คิด เพียงแต่ต้องการความเงียบเพื่อได้ยิน`
+    : '';
+
+  return `${bridge} ✦<br><br>
+<strong>${cards[0].th}</strong> บอกว่านี่คือสภาวะที่แท้จริงของคุณในขณะนี้ ไม่ดีไม่แย่ เพียงแค่ <em>เป็น</em> — และนั่นคือจุดเริ่มต้นของทุกการเปลี่ยนแปลง<br><br>
+<strong>${cards[1].th}</strong> คือแสงที่จักรวาลเตรียมไว้ให้คุณ มันไม่ได้อยู่ไกล เพียงแต่ต้องการการกระทำเล็กๆ หนึ่งอย่างเพื่อเข้าถึงมัน<br><br>
+<strong>${cards[2].th}</strong> ไม่ใช่จุดอ่อน แต่คือสัญญาณว่าจิตวิญญาณของคุณพร้อมจะเติบโตไปอีกระดับ บทเรียนที่ยากที่สุดมักเป็นของขวัญที่ล้ำค่าที่สุด<br><br>
+<em>${insight}</em>${intentionLine}<br><br>
+${closing}`;
+}
+
+// ─── RESET & SAVE ───
+function resetReading() {
+  state = { topic: null, drawnCards: [], flippedCount: 0, readingComplete: false };
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('intention').value = '';
+  resetCards();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function saveReading() {
+  const cards = state.drawnCards;
+  const topic = { life: 'การใช้ชีวิต', finance: 'การเงิน', business: 'ธุรกิจ', love: 'ความรัก' }[state.topic] || '';
+  const getName = c => c.name || c.th;
+  const text = `✦ บันทึกการทำนาย — ${topic}\n${new Date().toLocaleDateString('th-TH')}\n\n` +
+    cards.map((c, i) => {
+      const pos = ['ปัจจุบัน','โอกาส','เติบโต'][i];
+      const meaning = c.meaning_up || c[['present','opportunity','growth'][i]] || '';
+      return `${['🔮','⭐','🌱'][i]} ${pos}: ${getName(c)}\n${meaning}`;
+    }).join('\n\n');
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `tarot-reading-${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>
